@@ -1,18 +1,18 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { compareValue } from "../utils/bcrypt";
+import { compareValue, hashValue } from "../utils/bcrypt";
 
 export interface UserDocument extends Document {
     name: string;
     email: string;
-    password: string;
+    password?: string;
     profilePicture: string | null;
     isActive: boolean;
     lastLogin: Date | null;
     createAt: Date;
     updatesAt: Date;
     currentWorkspace: mongoose.Types.ObjectId | null;
-    comparePassword: (value: string) => Promise<boolean>;
-    omitPassword (): Omit<"UserDocuments", "password">;
+    comparePassword(value: string): Promise<boolean>;
+    omitPassword (): Omit<UserDocument, "password">;
 }
 
 const userSchema = new Schema<UserDocument>({
@@ -67,6 +67,4 @@ userSchema.methods.comparePassword = async function (value: string) {
 const UserModel = mongoose.model<UserDocument>("User", userSchema);
 export default UserModel;
 
-function hashValue(password: string): string | PromiseLike<string> {
-    throw new Error("Function not implemented.");
-}
+
