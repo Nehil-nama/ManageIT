@@ -12,7 +12,7 @@ export interface UserDocument extends Document {
     updatesAt: Date;
     currentWorkspace: mongoose.Types.ObjectId | null;
     comparePassword(value: string): Promise<boolean>;
-    omitPassword (): Omit<UserDocument, "password">;
+    omitPassword(): Omit<UserDocument, "password">;
 }
 
 const userSchema = new Schema<UserDocument>({
